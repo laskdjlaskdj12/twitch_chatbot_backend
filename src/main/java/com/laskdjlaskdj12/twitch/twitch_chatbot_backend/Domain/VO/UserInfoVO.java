@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class UserInfoVO {
+	private int PK;
 	private long id;
 	private String name;
 }
