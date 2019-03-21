@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/apply/viewer")
+@RequestMapping("/viewer/match")
 public class ViewerMatchController {
 
 	@Autowired
 	private ViewerMatchService viewerMatchService;
 
-	@PostMapping("/match")
+	@PostMapping("/apply")
 	public ResultVO applyLottery(@RequestBody @Valid ViewerMatchApplyDTO applyFormListDTO){
 		return viewerMatchService.apply(applyFormListDTO);
 	}
