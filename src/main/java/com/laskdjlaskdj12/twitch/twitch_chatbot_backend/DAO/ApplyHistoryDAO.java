@@ -1,5 +1,6 @@
 package com.laskdjlaskdj12.twitch.twitch_chatbot_backend.DAO;
 
+import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.Domain.VO.ApplyVO;
 import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.Domain.VO.MatchInfoVO;
 import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.Domain.VO.UserInfoVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,10 +11,11 @@ import org.springframework.stereotype.Repository;
 import javax.sql.DataSource;
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Repository
-public class ViewerApplyMatchHistoryDAO {
+public class ApplyHistoryDAO {
 
 	@Autowired
 	JdbcTemplate jdbcTemplate;
@@ -21,7 +23,7 @@ public class ViewerApplyMatchHistoryDAO {
 	private SimpleJdbcInsert simpleJdbcInsert;
 
 	@Autowired
-	public ViewerApplyMatchHistoryDAO(DataSource dataSource){
+	public ApplyHistoryDAO(DataSource dataSource){
 		simpleJdbcInsert = new SimpleJdbcInsert(dataSource)
 				.withTableName("viewerMatch")
 				.usingGeneratedKeyColumns("PK");
@@ -29,7 +31,7 @@ public class ViewerApplyMatchHistoryDAO {
 
 	public Integer addHistory(UserInfoVO userInfoVO, Integer emailVOPK, MatchInfoVO matchInfoVO, LocalDateTime currentDateTime) {
 		Map<String, Object> paramter = new HashMap<>();
-		paramter.put("userInfoPK", userInfoVO.getPK());
+		paramter.put("userPK", userInfoVO.getPK());
 		paramter.put("emailPK", emailVOPK);
 		paramter.put("matchInfoPK", matchInfoVO.getPK());
 		paramter.put("currentTime", currentDateTime);
