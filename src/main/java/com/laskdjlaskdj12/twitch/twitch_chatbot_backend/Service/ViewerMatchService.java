@@ -43,7 +43,7 @@ public class ViewerMatchService {
 		//신청자들이 신청한 매치정보의 시간대가 아닐경우
 		MatchInfoVO matchInfoVO = matchInfoDAO.getMatchInfoByCreator(applyFormListDTO.getManagerName());
 
-		if(matchInfoVO == null){
+		if(!isMatchExsist(matchInfoVO)){
 			throw new RuntimeException("No Such Business Exception \n name :" + applyFormListDTO.getManagerName());
 		}
 
@@ -59,7 +59,7 @@ public class ViewerMatchService {
 			//신청자들의 User정보를 DB에 저장함
 			UserInfoVO userInfoVO = userInfoDAO.getUserByID(applyFormDTO.getUserInfoDTO().getId());
 
-			if(userInfoVO == null){
+			if(!isUserInfoExsist(userInfoVO)){
 				//userInfo를 저장함
 				UserInfoDTO userInfoDTO = applyFormDTO.getUserInfoDTO();
 
@@ -69,10 +69,10 @@ public class ViewerMatchService {
 			}
 
 			//신청한 이메일이 있는지 확인
-			EmailVO appliedEmail = emailDAO.getEmailByUserPK(userInfoVO.getPK());
+			EmailVO applyEmail = emailDAO.getEmailByUserPK(userInfoVO.getPK());
 
 			//이메일이 이미 있으면 저장하지 않음
-			if(appliedEmail != null){
+			if(isEmailExsist(applyEmail)){
 				continue;
 			}
 
@@ -91,7 +91,7 @@ public class ViewerMatchService {
 			LocalDateTime currentDateTime = LocalDateTime.now();
 			Integer applyMatchVOPK = viewerApplyMatchHistoryDAO.addHistory(userInfoVO, emailVOPK, matchInfoVO, currentDateTime);
 
-			if(applyMatchVOPK <= 0){
+			if(isInsertHistoryFail(applyMatchVOPK)){
 				throw new RuntimeException("Can't insert runtime exception");
 			}
 		}
@@ -100,5 +100,21 @@ public class ViewerMatchService {
 		resultVO.setKey("Success");
 
 		return resultVO;
+	}
+
+	private boolean isInsertHistoryFail(Integer applyMatchVOPK) {
+		return applyMatchVOPK <= 0;
+	}
+
+	private boolean isEmailExsist(EmailVO applyEmail) {
+		return applyEmail != null;
+	}
+
+	private boolean isUserInfoExsist(UserInfoVO userInfoVO) {
+		return userInfoVO != null;
+	}
+
+	private boolean isMatchExsist(MatchInfoVO matchInfoVO) {
+		return matchInfoVO != null;
 	}
 }
