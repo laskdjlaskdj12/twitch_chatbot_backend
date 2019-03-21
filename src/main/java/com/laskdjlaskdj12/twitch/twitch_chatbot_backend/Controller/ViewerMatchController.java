@@ -19,7 +19,7 @@ public class ViewerMatchController {
 	private ViewerMatchService viewerMatchService;
 
 	@PostMapping("/apply")
-	public ResultVO applyLottery(@RequestBody @Valid ViewerMatchApplyDTO applyFormListDTO){
+	public ResultVO viewerMatchApply(@RequestBody @Valid ViewerMatchApplyDTO applyFormListDTO){
 		return viewerMatchService.apply(applyFormListDTO);
 	}
 }
