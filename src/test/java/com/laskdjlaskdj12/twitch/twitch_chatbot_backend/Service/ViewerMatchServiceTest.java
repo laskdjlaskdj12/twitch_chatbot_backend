@@ -87,7 +87,7 @@ public class ViewerMatchServiceTest {
 			UserInfoDTO userInfoDTO = makeUserInfoDTOMock(i);
 
 			ApplyFormDTO applyFormDTO = new ApplyFormDTO();
-			applyFormDTO.setEmail("laskdj" + String.valueOf(i) + "@gmail.com");
+			applyFormDTO.setEmail("laskdj" + i + "@gmail.com");
 			applyFormDTO.setUserInfoDTO(userInfoDTO);
 
 			applyFormDTOS.add(applyFormDTO);
@@ -101,7 +101,7 @@ public class ViewerMatchServiceTest {
 	private UserInfoDTO makeUserInfoDTOMock(int index) {
 		UserInfoDTO userInfoDTO = new UserInfoDTO();
 
-		userInfoDTO.setName("laskdj" + String.valueOf(index));
+		userInfoDTO.setName("laskdj" + index);
 		userInfoDTO.setId((long)index);
 		return userInfoDTO;
 	}

@@ -80,7 +80,7 @@ public class LotteryServiceTest {
 			userInfoVO.setPK(i);
 			userInfoVO.setId(i);
 
-			String email = "laskdjlaskdj" + String.valueOf(i) + "@gmail.com";
+			String email = "laskdjlaskdj" + i + "@gmail.com";
 			int emailPK = emailDAO.insert(userInfoVO, email);
 
 			applyHistoryDAO.addHistory(userInfoVO, emailPK, matchInfoVO, LocalDateTime.now());
