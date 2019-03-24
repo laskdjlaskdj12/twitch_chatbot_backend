@@ -30,6 +30,10 @@ public class ViewerMatchServiceTest {
 	@Autowired
 	ViewerMatchService viewerMatchService;
 
+	/**
+	 * Warning : DB에 Mock Data 값이 저장되기때문에 테스트 DB들을 Flush하고 사용할것
+	 */
+
 	@Before
 	public void before(){
 		LocalDateTime applyAllowStartTime = LocalDateTime.now();
