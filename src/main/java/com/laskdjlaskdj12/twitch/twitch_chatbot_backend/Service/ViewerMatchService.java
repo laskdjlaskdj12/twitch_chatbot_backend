@@ -1,9 +1,6 @@
 package com.laskdjlaskdj12.twitch.twitch_chatbot_backend.Service;
 
-import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.DAO.EmailDAO;
-import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.DAO.MatchInfoDAO;
-import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.DAO.UserInfoDAO;
-import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.DAO.ApplyHistoryDAO;
+import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.DAO.*;
 import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.Domain.DTO.ApplyFormDTO;
 import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.Domain.DTO.StartLotteryDTO;
 import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.Domain.DTO.UserInfoDTO;
@@ -35,10 +32,13 @@ public class ViewerMatchService {
 	private ApplyHistoryDAO viewerApplyMatchHistoryDAO;
 
 	@Autowired
+	private WinnerDAO winnerDAO;
+
+	@Autowired
 	private LotteryService lotteryService;
 
 	@Autowired
-	private LotteryMailService emailService;
+	private EmailService emailService;
 
 	@Nullable
 	public ResultVO apply(ViewerMatchApplyDTO applyFormListDTO) {
@@ -65,6 +65,7 @@ public class ViewerMatchService {
 			//신청자들의 User정보를 DB에 저장함
 			UserInfoVO userInfoVO = userInfoDAO.getUserByID(applyFormDTO.getUserInfoDTO().getId());
 
+			//저장된 트위치 유저정보가 있는지 확인
 			if(!isUserInfoExsist(userInfoVO)){
 				//userInfo를 저장함
 				UserInfoDTO userInfoDTO = applyFormDTO.getUserInfoDTO();
@@ -122,14 +123,20 @@ public class ViewerMatchService {
 		//응모한 유저 들중에서 확률을 정해서 추첨을 시작함
 		List<ApplyVO> winnerList = lotteryService.lotteryByViewerMatch(matchInfoVO, winCount);
 
+		//이메일 리스트를 받고 당첨자 정보를 저장함
 		List<EmailVO> winnerEmailList = winnerList.stream()
-				.map(applyVO -> getApplyEamilAddress(applyVO))
+				.map(this::getApplyEamilAddress)
+				.peek(emailVO -> saveWinnerInfo(matchInfoVO.getPK(), emailVO.getUserPK(), emailVO.getPK()))
 				.collect(Collectors.toList());
 
-		//이메일 을 발송함
+		//당첨 이메일 을 발송함
 		emailService.sendWinnerEmail(winnerEmailList);
 
 		return winnerEmailList;
+	}
+
+	private void saveWinnerInfo(int matchInfoPK, Integer userPK, Integer emailPK) {
+		winnerDAO.insertWinnerInfo(matchInfoPK, userPK, emailPK);
 	}
 
 	private EmailVO getApplyEamilAddress(ApplyVO applyVO) {
