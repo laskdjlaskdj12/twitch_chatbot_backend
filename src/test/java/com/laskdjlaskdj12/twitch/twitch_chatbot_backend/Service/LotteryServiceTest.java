@@ -32,7 +32,9 @@ public class LotteryServiceTest {
 	@Autowired
 	private MatchInfoDAO matchInfoDAO;
 
-//  applyHistoryDAO, emailDAO, matchInfoDAO를 먼저 초기화를 한후에 사용할것
+	/**
+	 * 	Warning : 테스트를 하기 전 applyHistoryDAO, emailDAO, matchInfoDAO를 먼저 초기화를 한후에 사용할것
+	 */
 //	@Before
 //	public void before(){
 //		insertMatchVOMock();
