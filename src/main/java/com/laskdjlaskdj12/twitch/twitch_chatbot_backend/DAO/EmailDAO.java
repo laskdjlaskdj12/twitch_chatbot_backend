@@ -56,4 +56,16 @@ public class EmailDAO {
 		Number PK = simpleJdbcInsert.executeAndReturnKey(parameters);
 		return PK.intValue();
 	}
+
+	public EmailVO getEmailByPK(Integer emailPK) {
+		String sql = "SELECT * FROM email WHERE PK = ?";
+
+		List<EmailVO> emailVOList = jdbcTemplate.query(sql, new EmailMapper(), emailPK);
+
+		if(emailVOList.isEmpty()){
+			return null;
+		}
+
+		return emailVOList.get(0);
+	}
 }

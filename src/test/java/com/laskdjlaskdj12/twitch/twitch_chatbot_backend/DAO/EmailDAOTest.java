@@ -19,7 +19,7 @@ public class EmailDAOTest {
 	private EmailDAO emailDAO;
 
 	@Test
-	public void getEmailByPK(){
+	public void insertTest(){
 		UserInfoVO userInfoVO = makeUserInfoMock();
 		String email = "laskdjlaskdj12@gmail.com";
 
@@ -43,6 +43,14 @@ public class EmailDAOTest {
 
 		Assert.assertFalse(emailVO.isEmpty());
 		Assert.assertNotNull(emailVO.get(0));
+	}
+
+	@Test
+	public void getEmailByPKTest(){
+		EmailVO emailVO = emailDAO.getEmailByPK(1);
+		boolean is_emailVO_not_null_true = emailVO != null;
+		
+		Assert.assertTrue(is_emailVO_not_null_true);
 	}
 
 	private UserInfoVO makeUserInfoMock() {
