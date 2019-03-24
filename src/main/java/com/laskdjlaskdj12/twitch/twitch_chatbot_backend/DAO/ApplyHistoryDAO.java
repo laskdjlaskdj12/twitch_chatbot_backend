@@ -1,5 +1,6 @@
 package com.laskdjlaskdj12.twitch.twitch_chatbot_backend.DAO;
 
+import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.DAO.Mapper.ApplyMapper;
 import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.Domain.VO.ApplyVO;
 import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.Domain.VO.MatchInfoVO;
 import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.Domain.VO.UserInfoVO;

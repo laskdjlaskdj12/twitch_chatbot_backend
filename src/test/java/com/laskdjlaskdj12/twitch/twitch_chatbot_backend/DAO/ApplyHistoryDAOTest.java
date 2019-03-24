@@ -13,10 +13,10 @@ import java.time.LocalDateTime;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class ViewerApplyMatchHistoryDAOTest {
+public class ApplyHistoryDAOTest {
 
 	@Autowired
-	ViewerApplyMatchHistoryDAO viewerApplyMatchHistoryDAO;
+	ApplyHistoryDAO viewerApplyMatchHistoryDAO;
 
 	@Test
 	public void addHistoryTest(){
