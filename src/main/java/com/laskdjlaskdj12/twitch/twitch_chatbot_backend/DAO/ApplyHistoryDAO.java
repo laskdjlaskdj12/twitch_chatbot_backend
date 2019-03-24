@@ -38,4 +38,10 @@ public class ApplyHistoryDAO {
 		paramter.put("currentTime", currentDateTime);
 		return simpleJdbcInsert.executeAndReturnKey(paramter).intValue();
 	}
+
+	public List<ApplyVO> getApplyHistory(MatchInfoVO matchInfoVO){
+		String sql = "SELECT * FROM viewerMatch WHERE matchInfoPK = ?";
+
+		return jdbcTemplate.query(sql, new ApplyMapper(), matchInfoVO.getPK());
+	}
 }
