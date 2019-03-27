@@ -1,12 +1,6 @@
 package com.laskdjlaskdj12.twitch.twitch_chatbot_backend.Service;
 
-import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.DAO.ApplyHistoryDAO;
-import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.DAO.EmailDAO;
-import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.Domain.Error.BusinessException;
-import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.Domain.VO.ApplyVO;
-import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.Domain.VO.EmailVO;
-import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.Domain.VO.MatchInfoVO;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.Domain.VO.ApplyTwitchUserVO;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -16,53 +10,26 @@ import java.util.Random;
 
 @Service
 public class LotteryService {
+	public List<ApplyTwitchUserVO> lotteryByViewerMatch(List<ApplyTwitchUserVO> applyUserList, int winCount) {
 
-	@Autowired
-	private ApplyHistoryDAO applyHistoryDAO;
+		//신청자 리스트의 순서를 섞음
+		shuffleApplyList(applyUserList);
 
-	@Autowired
-	private EmailDAO emailDAO;
-
-
-	public List<ApplyVO> lotteryByViewerMatch(MatchInfoVO matchInfoVO, int winCount) {
-
-		List<ApplyVO> applyList = applyHistoryDAO.getApplyHistory(matchInfoVO);
-
-		if(applyList.isEmpty()){
-			throw new BusinessException("ApplyList", "No Such ApplyList");
-		}
-
-		shuffleApplyList(applyList);
-
-		List<ApplyVO> winnerList = new ArrayList<>();
+		List<ApplyTwitchUserVO> winnerList = new ArrayList<>();
 
 		for (int i = 0; i < winCount; i++){
-			int winnerNumber = makeRandomWinnerNumber(applyList.size());
+			int winnerNumber = makeRandomWinnerNumber(applyUserList.size());
 
-			ApplyVO winnerApply = applyList.get(winnerNumber);
-
-			//Apply가 Valid한지 확인
-			if(!isValidApply(winnerApply)){
-				continue;
-			}
+			ApplyTwitchUserVO winnerApply = applyUserList.get(winnerNumber);
 
 			//당첨 리스트에 넣음
 			winnerList.add(winnerApply);
 
-			//당첨자를 대기열에서 제외
-			applyList.remove(winnerNumber);
+			//당첨자를 신청자리스트에서 제외
+			applyUserList.remove(winnerNumber);
 		}
 
 		return winnerList;
-	}
-
-	public boolean isValidApply(ApplyVO winnerApply) {
-		Integer emailPK = winnerApply.getEmailPK();
-
-		EmailVO emailVO = emailDAO.getEmailByPK(emailPK);
-
-		//이메일이 있는지 확인
-		return !emailVO.getEmail().isEmpty();
 	}
 
 	private int makeRandomWinnerNumber(int applySize) {
@@ -70,7 +37,7 @@ public class LotteryService {
 		return (int) (seed % applySize);
 	}
 
-	private void shuffleApplyList(List<ApplyVO> applyVOS){
+	private void shuffleApplyList(List<ApplyTwitchUserVO> applyVOS){
 		long seed = System.nanoTime();
 		Collections.shuffle(applyVOS, new Random(seed));
 	}
