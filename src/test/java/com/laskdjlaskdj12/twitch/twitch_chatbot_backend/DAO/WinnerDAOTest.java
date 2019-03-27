@@ -16,7 +16,7 @@ public class WinnerDAOTest {
 
 	@Test
 	public void insertTest(){
-		int result = winnerDAO.insertWinnerInfo(1, 10, 1);
+		int result = winnerDAO.insertWinner(1, 10);
 		boolean is_insert_row_over_0_true = result > 0;
 		Assert.assertTrue(is_insert_row_over_0_true);
 	}

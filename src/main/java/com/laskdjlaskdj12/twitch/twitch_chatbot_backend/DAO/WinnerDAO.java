@@ -14,18 +14,17 @@ public class WinnerDAO {
 	SimpleJdbcInsert simpleJdbcInsert;
 
 	@Autowired
-	public WinnerDAO(DataSource dataSource){
+	public WinnerDAO(DataSource dataSource) {
 		simpleJdbcInsert = new SimpleJdbcInsert(dataSource)
-				.withTableName("winner")
+				.withTableName("winnerViewer")
 				.usingGeneratedKeyColumns("PK");
 	}
 
-	public int insertWinnerInfo(int matchInfoPK, int userInfoPK, int emailVOPK){
-		Map<String,Object> parameter = new HashMap<>();
+	public int insertWinner(int matchInfoPK, Integer viewerApplyPK) {
+		Map<String, Object> parameter = new HashMap<>();
 
 		parameter.put("matchInfoPK", matchInfoPK);
-		parameter.put("userPK", userInfoPK);
-		parameter.put("emailPK", emailVOPK);
+		parameter.put("viewerApplyPK", viewerApplyPK);
 
 		return simpleJdbcInsert.executeAndReturnKey(parameter).intValue();
 	}
