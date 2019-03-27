@@ -18,8 +18,17 @@ public class MatchInfoDAOTest {
 	private MatchInfoDAO matchInfoDAO;
 
 	@Test
+	public void getMatchInfoByPKTest(){
+		MatchInfoVO matchInfoVO = matchInfoDAO.getMatchByPK(24);
+
+		boolean is_match_info_vo_is_not_null_true = matchInfoVO != null;
+
+		Assert.assertTrue(is_match_info_vo_is_not_null_true);
+	}
+
+	@Test
 	public void getMatchInfoByNameTest(){
-		MatchInfoVO matchInfoVO = matchInfoDAO.getMatchByCreator("laskdjlaskdj12");
+		MatchInfoVO matchInfoVO = matchInfoDAO.getCreateRecentMatchInfo("laskdjlaskdj12");
 
 		boolean is_match_info_vo_is_not_empty_true = matchInfoVO != null;
 

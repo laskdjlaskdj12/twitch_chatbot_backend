@@ -17,6 +17,11 @@ public class LotteryService {
 
 		List<ApplyTwitchUserVO> winnerList = new ArrayList<>();
 
+		//만약 신청자수가 당첨자수보다 적거나 같을경우 신청자가 당첨자됨
+		if(winnerList.size() <= winCount){
+			return applyUserList;
+		}
+
 		for (int i = 0; i < winCount; i++){
 			int winnerNumber = makeRandomWinnerNumber(applyUserList.size());
 

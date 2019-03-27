@@ -40,7 +40,7 @@ public class ViewerMatchService {
 		}
 
 		//이벤트 시작시간이 아닐경우
-		MatchInfoVO matchInfoVO = matchInfoDAO.getMatchByCreator(applyFormListDTO.getManagerName());
+		MatchInfoVO matchInfoVO = matchInfoDAO.getCreateRecentMatchInfo(applyFormListDTO.getManagerName());
 
 		if(!isMatchExsist(matchInfoVO)){
 			throw new RuntimeException("No such MatchInfo \n name :" + applyFormListDTO.getManagerName());
@@ -90,13 +90,17 @@ public class ViewerMatchService {
 		//이벤트 Info 로드
 		String creator = startLotteryDTO.getCreator();
 
-		MatchInfoVO matchInfoVO = matchInfoDAO.getMatchByCreator(creator);
+		MatchInfoVO matchInfoVO = matchInfoDAO.getCreateRecentMatchInfo(creator);
 
 		if(matchInfoVO == null){
 			throw new BusinessException("MatchInfo", "No Such Match Info");
 		}
 
 		List<ApplyTwitchUserVO> applyUserList = viewerMatchApplyDAO.getApplyList(matchInfoVO);
+
+		if(applyUserList.isEmpty()){
+			throw new BusinessException("LotteryFail", "No applier In ViewerMatch : " + matchInfoVO.getPK());
+		}
 
 		List<ApplyTwitchUserVO> winnerList = lotteryService.lotteryByViewerMatch(applyUserList, winCount);
 

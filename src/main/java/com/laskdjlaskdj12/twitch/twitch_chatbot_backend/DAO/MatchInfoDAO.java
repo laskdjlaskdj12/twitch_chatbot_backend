@@ -30,8 +30,21 @@ public class MatchInfoDAO {
 	}
 
 	@Nullable
-	public MatchInfoVO getMatchByCreator(String creator) {
-		String query = "SELECT * FROM matchInfo WHERE creator = ?";
+	public MatchInfoVO getMatchByPK(Integer PK){
+		String query = "SELECT * FROM matchInfo WHERE PK = ?";
+
+		List<MatchInfoVO> matchInfoVOList = jdbcTemplate.query(query, new MatchInfoMapper(), PK);
+
+		if(matchInfoVOList.isEmpty()) {
+			return null;
+		}
+
+		return matchInfoVOList.get(0);
+	}
+
+	@Nullable
+	public MatchInfoVO getCreateRecentMatchInfo(String creator) {
+		String query = "SELECT * FROM matchInfo WHERE creator = ? ORDER BY PK DESC";
 
 		List<MatchInfoVO> matchInfoVOList = jdbcTemplate.query(query, new MatchInfoMapper(), creator);
 
