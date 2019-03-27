@@ -1,6 +1,5 @@
 package com.laskdjlaskdj12.twitch.twitch_chatbot_backend.Service;
 
-import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.Domain.VO.EmailVO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,18 +15,8 @@ public class EmailServiceTest {
 
 	@Test
 	public void sendEmailTest(){
-		EmailVO emailVO = makeEmailMock();
+		String email = "laskdjlaskdj@naver.com";
 		String formString = "이것은 이메일입니다";
-		lotteryMailService.sendEmail(emailVO, formString);
-	}
-
-	private EmailVO makeEmailMock() {
-		EmailVO emailVO = new EmailVO();
-
-		emailVO.setPK(10);
-		emailVO.setEmail("laskdjlaskdj@naver.com");
-		emailVO.setUserPK(10);
-
-		return emailVO;
+		lotteryMailService.sendEmail(email, formString);
 	}
 }
