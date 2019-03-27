@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.RowMapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+@Deprecated
 public class EmailMapper implements RowMapper<EmailVO> {
 	@Override
 	public EmailVO mapRow(ResultSet rs, int rowNum) throws SQLException {

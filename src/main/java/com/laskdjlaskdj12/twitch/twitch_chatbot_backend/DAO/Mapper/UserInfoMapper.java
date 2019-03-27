@@ -6,7 +6,7 @@ import org.springframework.jdbc.core.RowMapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-
+@Deprecated
 public class UserInfoMapper implements RowMapper<UserInfoVO> {
 
 	@Override

@@ -5,6 +5,7 @@ import org.springframework.lang.Nullable;
 
 import javax.validation.constraints.NotNull;
 
+@Deprecated
 @Data
 public class EmailVO {
 

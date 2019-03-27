@@ -2,7 +2,6 @@ package com.laskdjlaskdj12.twitch.twitch_chatbot_backend.Controller;
 
 import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.Domain.DTO.StartLotteryDTO;
 import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.Domain.DTO.ViewerMatchApplyDTO;
-import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.Domain.VO.EmailVO;
 import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.Domain.VO.ResultVO;
 import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.Service.ViewerMatchService;
 import org.springframework.beans.factory.annotation.Autowired;
