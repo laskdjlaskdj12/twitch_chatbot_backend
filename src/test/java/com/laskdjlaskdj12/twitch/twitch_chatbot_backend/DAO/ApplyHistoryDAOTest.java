@@ -13,6 +13,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Deprecated
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class ApplyHistoryDAOTest {
