@@ -27,7 +27,7 @@ public class ViewerMatchController {
 	}
 
 	@PostMapping("/lottery")
-	public List<EmailVO> lotteryViewerMatch(@RequestBody @Valid StartLotteryDTO startLotteryDTO){
+	public List<String> lotteryViewerMatch(@RequestBody @Valid StartLotteryDTO startLotteryDTO){
 		return viewerMatchService.lottery(startLotteryDTO);
 	}
 }
