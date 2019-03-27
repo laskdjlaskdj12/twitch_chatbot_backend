@@ -30,7 +30,7 @@ public class MatchInfoDAO {
 	}
 
 	@Nullable
-	public MatchInfoVO getByCreator(String creator) {
+	public MatchInfoVO getMatchByCreator(String creator) {
 		String query = "SELECT * FROM matchInfo WHERE creator = ?";
 
 		List<MatchInfoVO> matchInfoVOList = jdbcTemplate.query(query, new MatchInfoMapper(), creator);

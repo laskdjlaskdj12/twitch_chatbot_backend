@@ -19,7 +19,7 @@ public class MatchInfoDAOTest {
 
 	@Test
 	public void getMatchInfoByNameTest(){
-		MatchInfoVO matchInfoVO = matchInfoDAO.getByCreator("laskdjlaskdj12");
+		MatchInfoVO matchInfoVO = matchInfoDAO.getMatchByCreator("laskdjlaskdj12");
 
 		boolean is_match_info_vo_is_not_empty_true = matchInfoVO != null;
 

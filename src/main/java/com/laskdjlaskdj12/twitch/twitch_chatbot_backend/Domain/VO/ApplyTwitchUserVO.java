@@ -15,7 +15,7 @@ public class ApplyTwitchUserVO {
 	private String email;
 
 	@NotNull
-	private String id;
+	private Long id;
 
 	@NotNull
 	private String name;

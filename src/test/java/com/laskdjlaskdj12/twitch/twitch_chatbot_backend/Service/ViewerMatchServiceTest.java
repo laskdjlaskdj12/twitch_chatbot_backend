@@ -5,17 +5,14 @@ import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.Domain.DTO.ApplyFormDTO;
 import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.Domain.DTO.StartLotteryDTO;
 import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.Domain.DTO.UserInfoDTO;
 import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.Domain.DTO.ViewerMatchApplyDTO;
-import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.Domain.VO.EmailVO;
 import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.Domain.VO.ResultVO;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,17 +28,17 @@ public class ViewerMatchServiceTest {
 	ViewerMatchService viewerMatchService;
 
 	/**
-	 * Warning : DB에 Mock Data 값이 저장되기때문에 테스트 DB들을 Flush하고 사용할것
+	 * Warning : 이 테스트는 DB에 Mock Data 값이 저장되기때문에 Before를 실행할때 테스트 DB들을 Flush하고 사용할것
 	 */
 
-	@Before
-	public void before(){
-		LocalDateTime applyAllowStartTime = LocalDateTime.now();
-		LocalDateTime applyAllowEndTime = LocalDateTime.now().plusDays(10);
-
-		//매치정보를 등록함
-		matchInfoDAO.insert("laskdj", applyAllowStartTime, applyAllowEndTime);
-	}
+//	@Before
+//	public void before(){
+//		LocalDateTime applyAllowStartTime = LocalDateTime.now();
+//		LocalDateTime applyAllowEndTime = LocalDateTime.now().plusDays(10);
+//
+//		//매치정보를 등록함
+//		matchInfoDAO.insert("laskdj", applyAllowStartTime, applyAllowEndTime);
+//	}
 
 	@Test
 	public void applyTest(){
@@ -53,7 +50,7 @@ public class ViewerMatchServiceTest {
 		double gap = ((end - start) / 1000.0);
 
 		Assert.assertNotNull(resultVO);
-		System.out.println("걸린시간 : " + gap);
+		System.out.println("걸린시간 : " + gap + "초");
 	}
 
 	@Test
@@ -64,15 +61,15 @@ public class ViewerMatchServiceTest {
 		startLotteryDTO.setPK(1);
 		startLotteryDTO.setWinCount(winnerCount);
 
-		List<EmailVO> winnerEmailList = viewerMatchService.lottery(startLotteryDTO);
+		List<String> emailList = viewerMatchService.lottery(startLotteryDTO);
 
-		boolean is_not_empty_true = !winnerEmailList.isEmpty();
-		boolean is_winner_is_10_true = winnerEmailList.size() == 10;
+		boolean is_not_empty_true = !emailList.isEmpty();
+		boolean is_winner_is_10_true = emailList.size() == 10;
 
 		Assert.assertTrue(is_not_empty_true);
 		Assert.assertTrue(is_winner_is_10_true);
 
-		winnerEmailList.stream()
+		emailList.stream()
 				.peek(emailVO -> System.out.println(emailVO))
 				.collect(Collectors.toList());
 	}
@@ -83,7 +80,7 @@ public class ViewerMatchServiceTest {
 
 		List<ApplyFormDTO> applyFormDTOS = new ArrayList<>();
 
-		for (int i = 0; i < 50; i++){
+		for (int i = 0; i < 1000; i++){
 			UserInfoDTO userInfoDTO = makeUserInfoDTOMock(i);
 
 			ApplyFormDTO applyFormDTO = new ApplyFormDTO();
