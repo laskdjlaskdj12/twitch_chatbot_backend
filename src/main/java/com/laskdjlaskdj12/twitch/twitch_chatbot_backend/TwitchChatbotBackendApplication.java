@@ -9,5 +9,4 @@ public class TwitchChatbotBackendApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(TwitchChatbotBackendApplication.class, args);
 	}
-
 }

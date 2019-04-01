@@ -1,6 +1,7 @@
 package com.laskdjlaskdj12.twitch.twitch_chatbot_backend.Service;
 
 import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.DAO.*;
+import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.Discord.Generator.LinkGenerator;
 import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.Domain.DTO.ApplyFormDTO;
 import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.Domain.DTO.StartLotteryDTO;
 import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.Domain.DTO.ViewerMatchApplyDTO;
@@ -110,8 +111,11 @@ public class ViewerMatchService {
 				.map(this::getApplyEamilAddress)
 				.collect(Collectors.toList());
 
+		//당참자들에게 발송할 Discord 링크 리스트들을 받음
+		List<String> discordInviteLinkList = LinkGenerator.getInstance().makeInviteUrlList(winnerEmailList.size());
+
 		//당첨 이메일 을 발송함
-		emailService.sendWinnerEmail(winnerEmailList);
+		emailService.sendWinnerEmailwithInviteLink(matchInfoVO.getCreator(), winnerEmailList, discordInviteLinkList);
 
 		return winnerEmailList;
 	}

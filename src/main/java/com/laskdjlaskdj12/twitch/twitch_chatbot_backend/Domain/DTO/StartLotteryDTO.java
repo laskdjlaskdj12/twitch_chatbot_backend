@@ -8,9 +8,6 @@ import javax.validation.constraints.NotNull;
 public class StartLotteryDTO {
 
 	@NotNull
-	Integer PK;
-
-	@NotNull
 	Integer winCount;
 
 	@NotNull

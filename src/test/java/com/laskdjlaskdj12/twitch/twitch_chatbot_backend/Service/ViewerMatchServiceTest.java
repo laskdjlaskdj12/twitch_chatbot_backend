@@ -60,13 +60,12 @@ public class ViewerMatchServiceTest {
 		Integer winnerCount = 10;
 		StartLotteryDTO startLotteryDTO = new StartLotteryDTO();
 		startLotteryDTO.setCreator("laskdj");
-		startLotteryDTO.setPK(1);
 		startLotteryDTO.setWinCount(winnerCount);
 
 		List<String> emailList = viewerMatchService.lottery(startLotteryDTO);
 
 		boolean is_not_empty_true = !emailList.isEmpty();
-		boolean is_winner_is_10_true = emailList.size() == 10;
+		boolean is_winner_is_10_true = emailList.size() == 2;
 
 		Assert.assertTrue(is_not_empty_true);
 		Assert.assertTrue(is_winner_is_10_true);

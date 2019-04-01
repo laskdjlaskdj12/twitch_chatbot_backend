@@ -17,6 +17,7 @@ public class EmailServiceTest {
 	public void sendEmailTest(){
 		String email = "laskdjlaskdj@naver.com";
 		String formString = "이것은 이메일입니다";
-		lotteryMailService.sendEmail(email, formString);
+		String creator = "laskdjlaskdj12";
+		lotteryMailService.sendEmail(creator, email, formString);
 	}
 }
