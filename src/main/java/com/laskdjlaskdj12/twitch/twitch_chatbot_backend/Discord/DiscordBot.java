@@ -3,7 +3,6 @@ package com.laskdjlaskdj12.twitch.twitch_chatbot_backend.Discord;
 import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.Discord.DiscordService.LinkService;
 import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.Discord.DiscordService.PropertyService;
 import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.Discord.Event.CommandEvent;
-import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.Discord.Event.InviteEvent;
 import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.Discord.Generator.LinkGenerator;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -33,7 +32,6 @@ public class DiscordBot {
 			jda = new JDABuilder(discordBotToken)
 					.setEventManager(new AnnotatedEventManager())
 					.addEventListeners(new CommandEvent())
-					.addEventListeners(new InviteEvent())
 					.build();
 
 			linkService = new LinkService(jda);
