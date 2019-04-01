@@ -20,7 +20,6 @@ public class PropertyService {
 		String jsonContent = null;
 
 		try {
-//			ResourceUtils.getFile("Discord.config");
 			InputStream inputStream = new ClassPathResource("static/Discord.config").getInputStream();
 			byte[] bdata = FileCopyUtils.copyToByteArray(inputStream);
 			jsonContent = new String(bdata, StandardCharsets.UTF_8);
