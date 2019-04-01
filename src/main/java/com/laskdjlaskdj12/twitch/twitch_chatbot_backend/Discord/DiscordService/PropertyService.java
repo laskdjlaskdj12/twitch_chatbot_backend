@@ -3,6 +3,7 @@ package com.laskdjlaskdj12.twitch.twitch_chatbot_backend.Discord.DiscordService;
 import com.google.gson.Gson;
 import org.apache.commons.io.FileUtils;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.util.ResourceUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,7 +18,8 @@ public class PropertyService {
 		String jsonContent = null;
 
 		try {
-			File propertyFile =  new ClassPathResource("Discord.config").getFile();
+//			ResourceUtils.getFile("Discord.config");
+			File propertyFile =  ResourceUtils.getFile("Discord.config");
 			jsonContent = FileUtils.readFileToString(propertyFile);
 		} catch (IOException e) {
 			e.printStackTrace();
