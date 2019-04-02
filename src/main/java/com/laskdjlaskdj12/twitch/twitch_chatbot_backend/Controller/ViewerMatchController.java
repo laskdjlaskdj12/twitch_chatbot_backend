@@ -1,8 +1,10 @@
 package com.laskdjlaskdj12.twitch.twitch_chatbot_backend.Controller;
 
+import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.Domain.DTO.MatchInfoDTO;
 import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.Domain.DTO.StartLotteryDTO;
 import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.Domain.DTO.ViewerMatchApplyDTO;
 import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.Domain.VO.ResultVO;
+import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.Service.MatchInfoService;
 import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.Service.ViewerMatchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +21,14 @@ public class ViewerMatchController {
 
 	@Autowired
 	private ViewerMatchService viewerMatchService;
+
+	@Autowired
+	private MatchInfoService matchInfoService;
+
+	@PostMapping("/create")
+	public ResultVO createMatch(@RequestBody @Valid MatchInfoDTO matchInfoDTO){
+		return matchInfoService.createMatch(matchInfoDTO);
+	}
 
 	@PostMapping("/apply")
 	public ResultVO viewerMatchApply(@RequestBody @Valid ViewerMatchApplyDTO applyFormListDTO){

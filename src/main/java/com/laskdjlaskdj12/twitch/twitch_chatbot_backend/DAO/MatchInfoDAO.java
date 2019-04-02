@@ -1,6 +1,7 @@
 package com.laskdjlaskdj12.twitch.twitch_chatbot_backend.DAO;
 
 import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.DAO.Mapper.MatchInfoMapper;
+import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.Domain.DTO.MatchInfoDTO;
 import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.Domain.VO.MatchInfoVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -62,5 +63,9 @@ public class MatchInfoDAO {
 		parameter.put("endTime", endTime);
 
 		return simpleJdbcInsert.executeAndReturnKey(parameter).intValue();
+	}
+
+	public int insert(MatchInfoDTO matchInfoDTO) {
+		return insert(matchInfoDTO.getCreator(), matchInfoDTO.getStartTime(), matchInfoDTO.getEndTime());
 	}
 }
