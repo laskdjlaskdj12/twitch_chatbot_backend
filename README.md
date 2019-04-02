@@ -1,4 +1,4 @@
-# EventAngel
+# ViewerMatcherTwitchBot
 [![works badge](https://cdn.rawgit.com/nikku/works-on-my-machine/v0.2.0/badge.svg)](https://github.com/nikku/works-on-my-machine)
 
 시청자 참여 이벤트 사이트입니다.  
