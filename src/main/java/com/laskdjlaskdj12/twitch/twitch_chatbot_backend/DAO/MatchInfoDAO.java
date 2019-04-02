@@ -64,8 +64,4 @@ public class MatchInfoDAO {
 
 		return simpleJdbcInsert.executeAndReturnKey(parameter).intValue();
 	}
-
-	public int insert(MatchInfoDTO matchInfoDTO) {
-		return insert(matchInfoDTO.getCreator(), matchInfoDTO.getStartTime(), matchInfoDTO.getEndTime());
-	}
 }

@@ -12,8 +12,8 @@ public class MatchInfoDTO {
 	String creator;
 
 	@NotNull
-	LocalDateTime startTime;
+	String startTime;
 
 	@NotNull
-	LocalDateTime endTime;
+	String endTime;
 }

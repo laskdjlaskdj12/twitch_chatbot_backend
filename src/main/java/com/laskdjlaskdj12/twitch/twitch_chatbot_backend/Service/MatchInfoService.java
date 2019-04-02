@@ -4,8 +4,11 @@ import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.DAO.MatchInfoDAO;
 import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.Domain.DTO.MatchInfoDTO;
 import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.Domain.Error.BusinessException;
 import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.Domain.VO.ResultVO;
+import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.Utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 
 @Service
 public class MatchInfoService {
@@ -14,7 +17,10 @@ public class MatchInfoService {
 	private MatchInfoDAO matchInfoDAO;
 
 	public ResultVO createMatch(MatchInfoDTO matchInfoDTO) {
-		Integer integer = matchInfoDAO.insert(matchInfoDTO);
+		LocalDateTime startTime = Utils.stringToLocalDateTime(matchInfoDTO.getStartTime());
+		LocalDateTime endTime = Utils.stringToLocalDateTime(matchInfoDTO.getEndTime());
+
+		Integer integer = matchInfoDAO.insert(matchInfoDTO.getCreator(), startTime, endTime);
 
 		if(integer < 0){
 			throw new BusinessException("Match", "Save Viewer Match Info Fail");
