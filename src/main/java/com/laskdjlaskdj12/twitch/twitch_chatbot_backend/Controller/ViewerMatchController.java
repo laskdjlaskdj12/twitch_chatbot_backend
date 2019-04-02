@@ -29,4 +29,9 @@ public class ViewerMatchController {
 	public List<String> lotteryViewerMatch(@RequestBody @Valid StartLotteryDTO startLotteryDTO){
 		return viewerMatchService.lottery(startLotteryDTO);
 	}
+
+	@PostMapping("/applycount")
+	public Integer applyCount(@RequestBody @Valid String creator){
+		return viewerMatchService.getApplyCount(creator);
+	}
 }

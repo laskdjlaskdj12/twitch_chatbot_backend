@@ -75,6 +75,15 @@ public class ViewerMatchServiceTest {
 				.collect(Collectors.toList());
 	}
 
+	@Test
+	public void getApplyCountTest(){
+		Integer count = viewerMatchService.getApplyCount("laskdjlaskdj12");
+
+		Assert.assertTrue(count > 0);
+
+		System.out.println("applyCount : " + count);
+	}
+
 	private ViewerMatchApplyDTO makeViewerMatchApplyDTOMock() {
 		ViewerMatchApplyDTO viewerMatchApplyDTO = new ViewerMatchApplyDTO();
 		viewerMatchApplyDTO.setManagerName("laskdj");

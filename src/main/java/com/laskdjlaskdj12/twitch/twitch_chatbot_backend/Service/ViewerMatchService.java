@@ -120,6 +120,18 @@ public class ViewerMatchService {
 		return winnerEmailList;
 	}
 
+	public Integer getApplyCount(String creator) {
+		MatchInfoVO matchInfoVO = matchInfoDAO.getCreateRecentMatchInfo(creator);
+
+		if(matchInfoVO == null){
+			throw new BusinessException("creator", "can not find viewerMatchInfo");
+		}
+
+		List<ApplyTwitchUserVO> applyTwitchUserVOList = viewerMatchApplyDAO.getApplyList(matchInfoVO);
+
+		return applyTwitchUserVOList.size();
+	}
+
 	private void saveWinnerInfo(int matchInfoPK, ApplyTwitchUserVO applyTwitchUserVO) {
 		winnerDAO.insertWinner(matchInfoPK, applyTwitchUserVO.getPK());
 	}
