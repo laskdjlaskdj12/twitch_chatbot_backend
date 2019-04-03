@@ -21,6 +21,9 @@ public class MatchInfoService {
 		LocalDateTime startTime = Utils.stringToLocalDateTime(matchInfoDTO.getStartTime());
 		LocalDateTime endTime = Utils.stringToLocalDateTime(matchInfoDTO.getEndTime());
 
+		System.out.println(startTime);
+		System.out.println(endTime);
+
 		Integer integer = matchInfoDAO.insert(matchInfoDTO.getCreator(), startTime, endTime);
 
 		if(integer < 0){
