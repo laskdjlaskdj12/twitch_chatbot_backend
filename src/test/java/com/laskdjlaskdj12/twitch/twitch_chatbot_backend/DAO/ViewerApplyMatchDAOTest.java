@@ -51,7 +51,7 @@ public class ViewerApplyMatchDAOTest {
 	}
 
 	@Test
-	public void getApplyListTest(){
+	public void getApplyListTest() {
 		MatchInfoVO matchInfoVO = makeMatchInfoVOMock();
 		List<ApplyTwitchUserVO> applyTwitchUserVOS = viewerApplyMatchDAO.getApplyList(matchInfoVO);
 
@@ -61,7 +61,7 @@ public class ViewerApplyMatchDAOTest {
 	}
 
 	@Test
-	public void getApplyByEmailTest(){
+	public void getApplyByEmailTest() {
 		List<ApplyTwitchUserVO> applyTwitchUserVOS = viewerApplyMatchDAO.getApplyByEmail("laskdjlaskdj12@gmail.com");
 
 		boolean is_not_empty_true = !applyTwitchUserVOS.isEmpty();
@@ -70,8 +70,8 @@ public class ViewerApplyMatchDAOTest {
 	}
 
 	@Test
-	public void getApplyByViewerIdTest(){
-		List<ApplyTwitchUserVO> applyTwitchUserVOS = viewerApplyMatchDAO.getApplyByViewerID((long)20150840);
+	public void getApplyByViewerIdTest() {
+		List<ApplyTwitchUserVO> applyTwitchUserVOS = viewerApplyMatchDAO.getApplyByViewerID((long) 20150840);
 
 		boolean is_not_empty_true = !applyTwitchUserVOS.isEmpty();
 

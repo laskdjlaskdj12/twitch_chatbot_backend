@@ -59,20 +59,21 @@ public class ViewerMatchServiceTest {
 	public void lotteryTest(){
 		Integer winnerCount = 10;
 		StartLotteryDTO startLotteryDTO = new StartLotteryDTO();
-		startLotteryDTO.setCreator("laskdj");
+		startLotteryDTO.setCreator("laskdjlaskdj12");
 		startLotteryDTO.setWinCount(winnerCount);
 
 		List<String> emailList = viewerMatchService.lottery(startLotteryDTO);
 
-		boolean is_not_empty_true = !emailList.isEmpty();
-		boolean is_winner_is_10_true = emailList.size() == 2;
-
-		Assert.assertTrue(is_not_empty_true);
-		Assert.assertTrue(is_winner_is_10_true);
-
 		emailList.stream()
 				.peek(emailVO -> System.out.println(emailVO))
 				.collect(Collectors.toList());
+
+		boolean is_not_empty_true = !emailList.isEmpty();
+		boolean is_winner_is_1_true = emailList.size() == 1;
+
+		Assert.assertTrue(is_not_empty_true);
+		Assert.assertTrue(is_winner_is_1_true);
+
 	}
 
 	@Test
@@ -86,7 +87,7 @@ public class ViewerMatchServiceTest {
 
 	private ViewerMatchApplyDTO makeViewerMatchApplyDTOMock() {
 		ViewerMatchApplyDTO viewerMatchApplyDTO = new ViewerMatchApplyDTO();
-		viewerMatchApplyDTO.setManagerName("laskdj");
+		viewerMatchApplyDTO.setManagerName("laskdjlaskdj12");
 
 		List<ApplyFormDTO> applyFormDTOS = new ArrayList<>();
 

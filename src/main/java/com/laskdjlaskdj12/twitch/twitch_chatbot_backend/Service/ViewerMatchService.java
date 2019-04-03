@@ -1,14 +1,19 @@
 package com.laskdjlaskdj12.twitch.twitch_chatbot_backend.Service;
 
-import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.DAO.*;
+import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.DAO.MatchInfoDAO;
+import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.DAO.ViewerApplyMatchDAO;
+import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.DAO.WinnerDAO;
 import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.Discord.Generator.LinkGenerator;
 import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.Domain.DTO.ApplyFormDTO;
 import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.Domain.DTO.StartLotteryDTO;
 import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.Domain.DTO.ViewerMatchApplyDTO;
 import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.Domain.Error.BusinessException;
-import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.Domain.VO.*;
+import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.Domain.VO.ApplyTwitchUserVO;
+import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.Domain.VO.MatchInfoVO;
+import com.laskdjlaskdj12.twitch.twitch_chatbot_backend.Domain.VO.ResultVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotNull;
@@ -34,46 +39,36 @@ public class ViewerMatchService {
 	@Autowired
 	private WinnerDAO winnerDAO;
 
+	@Autowired
+	private FilterService filterService;
+
 	@Nullable
 	public ResultVO apply(ViewerMatchApplyDTO applyFormListDTO) {
-		if(applyFormListDTO.getApplyViewerFormList() == null){
+		if (applyFormListDTO.getApplyViewerFormList() == null) {
 			return null;
 		}
 
-		//이벤트 시작시간이 아닐경우
 		MatchInfoVO matchInfoVO = matchInfoDAO.getCreateRecentMatchInfo(applyFormListDTO.getManagerName());
 
-		if(!isMatchExsist(matchInfoVO)){
+		if (!isMatchExsist(matchInfoVO)) {
 			throw new RuntimeException("No such MatchInfo \n name :" + applyFormListDTO.getManagerName());
 		}
 
+		//서버에서 현재 신청한 시각을 구함
 		LocalDateTime currentTime = LocalDateTime.now();
 
-		if(currentTime.isBefore(matchInfoVO.getStartTime()) ||
-		currentTime.isAfter(matchInfoVO.getEndTime())){
+		//이벤트 시작시간이 아닌지 체크
+		if (currentTime.isBefore(matchInfoVO.getStartTime()) ||
+				currentTime.isAfter(matchInfoVO.getEndTime())) {
 			throw new BusinessException("BeforeApply", "apply before start time");
 		}
 
 		List<ApplyFormDTO> applyViewerList = applyFormListDTO.getApplyViewerFormList();
 
-		for (ApplyFormDTO applyFormDTO: applyViewerList) {
-
-			//중복신청한 유저가있는지 체크
-			List<ApplyTwitchUserVO> applierList = viewerMatchApplyDAO.getApplyByViewerID(applyFormDTO.getUserInfoDTO().getId());
-
-			if(!applierList.isEmpty()){
-				continue;
-			}
-
-			//신청한 이메일이 있는지 체크
-			List<ApplyTwitchUserVO> duplicateApplier = viewerMatchApplyDAO.getApplyByEmail(applyFormDTO.getEmail());
-
-			if(!duplicateApplier.isEmpty()){
-				continue;
-			}
-
+		//중복신청한 유저가 있는지 체크
+		for (ApplyFormDTO applyFormDTO : applyViewerList) {
 			//신청자 정보들을 DB에 저장
-			viewerMatchApplyDAO.insert(applyFormDTO, matchInfoVO);
+			insertApplyForm(applyFormDTO, matchInfoVO);
 		}
 
 		ResultVO resultVO = new ResultVO();
@@ -93,15 +88,18 @@ public class ViewerMatchService {
 
 		MatchInfoVO matchInfoVO = matchInfoDAO.getCreateRecentMatchInfo(creator);
 
-		if(matchInfoVO == null){
+		if (matchInfoVO == null) {
 			throw new BusinessException("MatchInfo", "No Such Match Info");
 		}
 
 		List<ApplyTwitchUserVO> applyUserList = viewerMatchApplyDAO.getApplyList(matchInfoVO);
 
-		if(applyUserList.isEmpty()){
+		if (applyUserList.isEmpty()) {
 			throw new BusinessException("LotteryFail", "No applier In ViewerMatch : " + matchInfoVO.getPK());
 		}
+
+		List<ApplyTwitchUserVO> emailFilterUserList = filterService.filterDuplicatedPlayer(applyUserList);
+		applyUserList = filterService.filterDuplicatedEmail(emailFilterUserList);
 
 		List<ApplyTwitchUserVO> winnerList = lotteryService.lotteryByViewerMatch(applyUserList, winCount);
 
@@ -123,13 +121,20 @@ public class ViewerMatchService {
 	public Integer getApplyCount(String creator) {
 		MatchInfoVO matchInfoVO = matchInfoDAO.getCreateRecentMatchInfo(creator);
 
-		if(matchInfoVO == null){
+		if (matchInfoVO == null) {
 			throw new BusinessException("creator", "can not find viewerMatchInfo");
 		}
 
 		List<ApplyTwitchUserVO> applyTwitchUserVOList = viewerMatchApplyDAO.getApplyList(matchInfoVO);
 
 		return applyTwitchUserVOList.size();
+	}
+
+	@Async
+	void insertApplyForm(ApplyFormDTO applyFormDTO, MatchInfoVO matchInfoVO) {
+		if (viewerMatchApplyDAO.insert(applyFormDTO, matchInfoVO) < 0){
+			throw new RuntimeException("Save Viewer Apply From Fail");
+		}
 	}
 
 	private void saveWinnerInfo(int matchInfoPK, ApplyTwitchUserVO applyTwitchUserVO) {
