@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -37,7 +38,7 @@ public class MatchInfoDAOTest {
 
 	@Test
 	public void insertTest(){
-		int insertPK = matchInfoDAO.insert("laskdjlaskdj12", LocalDateTime.now(), LocalDateTime.now().plusDays(10));
+		int insertPK = matchInfoDAO.insert("laskdjlaskdj12", LocalDateTime.now(ZoneId.of("Asia/Seoul")), LocalDateTime.now().plusDays(10));
 		Assert.assertTrue(insertPK > 0);
 	}
 }

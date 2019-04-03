@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -55,7 +56,7 @@ public class ViewerMatchService {
 		}
 
 		//서버에서 현재 신청한 시각을 구함
-		LocalDateTime currentTime = LocalDateTime.now();
+		LocalDateTime currentTime = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
 
 		//이벤트 시작시간이 아닌지 체크
 		if (currentTime.isBefore(matchInfoVO.getStartTime()) ||
