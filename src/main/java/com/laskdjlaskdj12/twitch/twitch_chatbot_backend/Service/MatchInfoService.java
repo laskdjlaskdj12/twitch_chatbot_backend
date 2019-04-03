@@ -17,6 +17,7 @@ public class MatchInfoService {
 	private MatchInfoDAO matchInfoDAO;
 
 	public ResultVO createMatch(MatchInfoDTO matchInfoDTO) {
+		System.out.println(matchInfoDTO);
 		LocalDateTime startTime = Utils.stringToLocalDateTime(matchInfoDTO.getStartTime());
 		LocalDateTime endTime = Utils.stringToLocalDateTime(matchInfoDTO.getEndTime());
 
