@@ -1,4 +1,5 @@
 # ViewerMatcherTwitchBot
+[![Build Status](https://travis-ci.org/laskdjlaskdj12/viewerMatcherServer.svg?branch=master)](https://travis-ci.org/laskdjlaskdj12/viewerMatcherServer)
 [![works badge](https://cdn.rawgit.com/nikku/works-on-my-machine/v0.2.0/badge.svg)](https://github.com/nikku/works-on-my-machine)
 
 시청자 참여 이벤트 사이트입니다.  
